@@ -1,6 +1,7 @@
 // ./src/App.js
 import React, { useState } from 'react';
 import { computerVision } from './components/AzureVisionService';
+import Chatbot from './components/Patrick/chatbot';
 
 function App() {
   const [file, setFile] = useState(null);
@@ -36,8 +37,7 @@ function App() {
     return (
       <div>
         <h2>Computer Vision Analysis</h2>
-        <h1>hello</h1>
-        <h2>Test</h2>
+
         <div>
           <img
             src={analysis.URL}
@@ -86,6 +86,7 @@ function App() {
   return (
     <div>
       <Describe />
+      <Chatbot />
     </div>
   );
 }
