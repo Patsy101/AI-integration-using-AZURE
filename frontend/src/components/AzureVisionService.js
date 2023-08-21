@@ -1,6 +1,7 @@
 // Importing the Azure SDK client libraries
 import { ComputerVisionClient } from '@azure/cognitiveservices-computervision';
 import { ApiKeyCredentials } from '@azure/ms-rest-js';
+import findCar from './findCar';
 // Load environment variables from .env file
 
 // Authentication requirements
@@ -28,9 +29,10 @@ export const computerVision = async (url) => {
   const analysis = await computerVisionClient
     .describeImage(url, options)
     .then((result) => {
+      findCar(result.tags);
       console.log('The result is:');
       console.log(result);
-      return { URL: url, ...result };
+      return findCar(result.tags);
     })
     .catch((err) => {
       console.log('An error occurred:');
