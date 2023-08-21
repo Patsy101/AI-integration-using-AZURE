@@ -1,6 +1,7 @@
 // Importing the Azure SDK client libraries
 import { ComputerVisionClient } from '@azure/cognitiveservices-computervision';
 import { ApiKeyCredentials } from '@azure/ms-rest-js';
+
 // Load environment variables from .env file
 
 // Authentication requirements
