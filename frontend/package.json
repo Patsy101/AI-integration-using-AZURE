@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@azure/cognitiveservices-computervision": "^8.2.0",
+    "@azure/cognitiveservices-customvision-training": "^5.2.0",
     "@azure/ms-rest-js": "^2.7.0",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",

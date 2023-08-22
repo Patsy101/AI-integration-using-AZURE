@@ -1,0 +1,23 @@
+.backgroundVideos {
+  position: relative;
+}
+
+video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 2s; /* 2 seconds fade */
+  z-index: -10;
+}
+
+.video.active {
+  opacity: 0.9;
+}
+
+.content {
+  color: white;
+}
