@@ -1,51 +1,68 @@
 const express = require('express');
 const https = require('https');
 const cors = require('cors');
+const axios = require('axios');
 const app = express();
-const PORT = process.env.PORT || 4000; // Change to your desired port
+const multer = require('multer');
+
+const PORT = process.env.PORT || 4000;
+
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
 app.use(express.json());
 app.use(cors());
+// cars image url
+app.post('/carsimageurl', async (req, res) => {
+  const { imageUrl } = req.body;
 
-app.get('/TurnersCars', (req, res) => {
-  let subscriptionKey = '7825de3e46804f8b8ea48ec323aa494a';
-  let host = 'api.bing.microsoft.com';
-  let path = '/v7.0/search';
-  let mkt = 'en-NZ';
-  let q = 'cars picture';
-  let query = '?mkt=' + mkt + '&q=' + encodeURI(q);
+  // Your Custom Vision API endpoint and prediction key
+  const apiUrl =
+    'https://australiaeast.api.cognitive.microsoft.com/customvision/v3.0/Prediction/b91065f7-7f9f-4d01-a7da-b6be39c3ca93/classify/iterations/Iteration1/url';
+  const predictionKey = '5e3052452faf40fbaf2cc0452c2ddd75';
 
-  let response_handler = function (response) {
-    let body = '';
+  try {
+    const response = await axios.post(
+      apiUrl,
+      { Url: imageUrl },
+      {
+        headers: {
+          'Prediction-Key': predictionKey,
+          'Content-Type': 'application/json',
+        },
+      }
+    );
 
-    response.on('data', function (d) {
-      body += d;
-    });
-
-    response.on('end', function () {
-      let json = JSON.parse(body);
-      res.send(json); // Send the JSON data to the client
-    });
-  };
-
-  let Search = function () {
-    let request_params = {
-      method: 'GET',
-      hostname: host,
-      path: path + query,
-      headers: {
-        'Ocp-Apim-Subscription-Key': subscriptionKey,
-      },
-    };
-
-    let req = https.request(request_params, response_handler);
-    req.end();
-  };
-
-  Search(); // Initiate the API request
-
-  // Serve the HTML file
+    // Respond with the classification result
+    res.json(response.data);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'An error occurred' });
+  }
 });
+//cars upload image
+app.post('/classifyuploadimage', upload.single('image'), async (req, res) => {
+  const imageBuffer = req.file.buffer;
 
+  // Your Custom Vision API endpoint and prediction key
+  const apiUrl =
+    'https://australiaeast.api.cognitive.microsoft.com/customvision/v3.0/Prediction/b91065f7-7f9f-4d01-a7da-b6be39c3ca93/classify/iterations/Iteration1/image';
+  const predictionKey = '5e3052452faf40fbaf2cc0452c2ddd75';
+
+  try {
+    const response = await axios.post(apiUrl, imageBuffer, {
+      headers: {
+        'Prediction-Key': predictionKey,
+        'Content-Type': 'application/octet-stream',
+      },
+    });
+
+    // Respond with the classification result
+    res.json(response.data);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'An error occurred' });
+  }
+});
 app.listen(PORT, () => {
   console.log(`Server is listening at http://localhost:${PORT}`);
 });
