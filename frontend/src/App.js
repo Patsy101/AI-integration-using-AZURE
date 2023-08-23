@@ -1,11 +1,11 @@
 import React from "react";
 import BackgroundVideo from "./components/Moses/VideoPlayer";
-// import Describe from "./components/AzureVisionService/useAzureVision";
+import CustomAI from "./components/Moses/CustomAI";
 
 export default function App() {
   return (
     <div className="App">
-      {/* <Describe /> */}
+      <CustomAI />
       <BackgroundVideo />
     </div>
   );
