@@ -1,92 +1,60 @@
 // ./src/App.js
+
 import React, { useState } from 'react';
-import { computerVision } from './components/AzureVisionService';
-import Chatbot from './components/Patrick/chatbot';
+import axios from 'axios';
+import ImageUrlClassification from './components/Patrick/UrlImage';
 
 function App() {
-  const [file, setFile] = useState(null);
-  const [analysis, setAnalysis] = useState(null);
-  const [processing, setProcessing] = useState(false);
+  const [image, setImage] = useState(null);
+  const [imageUrl, setImageUrl] = useState('');
+  const [results, setResults] = useState([]);
 
-  const handleChange = (e) => {
-    setFile(e.target.value);
-  };
-  const onFileUrlEntered = () => {
-    // hold UI
-    setProcessing(true);
-    setAnalysis(null);
-
-    computerVision(file).then((item) => {
-      // reset state/form
-      setAnalysis(item);
-      setFile('');
-      setProcessing(false);
-    });
+  const handleImageChange = (event) => {
+    const selectedImage = event.target.files[0];
+    setImage(selectedImage);
+    setImageUrl(URL.createObjectURL(selectedImage)); // Create a temporary URL for the selected image
   };
 
-  // Display JSON data in readable format
-  const PrettyPrintJson = (data) => {
-    return (
-      <div>
-        <pre>{JSON.stringify(data, null, 2)}</pre>
-      </div>
-    );
-  };
+  const handleUpload = async () => {
+    if (!image) return;
 
-  const DisplayResults = () => {
-    return (
-      <div>
-        <h2>Computer Vision Analysis</h2>
+    const formData = new FormData();
+    formData.append('image', image);
 
-        <div>
-          <img
-            src={analysis.URL}
-            height="200"
-            border="1"
-            alt={
-              analysis.description &&
-              analysis.description.captions &&
-              analysis.description.captions[0].text
-                ? analysis.description.captions[0].text
-                : "can't find caption"
-            }
-          />
-        </div>
-        {PrettyPrintJson(analysis)}
-      </div>
-    );
-  };
+    try {
+      const response = await axios.post(
+        'http://localhost:4000/classifyuploadimage',
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        }
+      );
 
-  //Describe image
-  const Describe = () => {
-    return (
-      <div>
-        <h1>Describe image</h1>
-        {!processing && (
-          <div>
-            <div>
-              <label>URL</label>
-              <input
-                type="text"
-                placeholder="Enter an image URL"
-                size="50"
-                onChange={handleChange}
-              ></input>
-              <button onClick={onFileUrlEntered}>Describe</button>
-            </div>
-          </div>
-        )}
-        {processing && <div>Processing...</div>}
-        <hr />
-        {analysis && DisplayResults()}
-      </div>
-    );
+      setResults(response.data.predictions);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
-    <div>
-      <Describe />
-      <Chatbot />
+    <div className="App">
+      <h1>Image Classification</h1>
+      <input type="file" accept="image/*" onChange={handleImageChange} />
+      <button onClick={handleUpload}>Upload</button>
+
+      <div className="results">
+        <h2>Classification Results:</h2>
+
+        {imageUrl && <img src={imageUrl} alt="Uploaded" width="300" />}
+        {results.map((result, index) => (
+          <p key={index}>
+            {result.tagName}: {Math.round(result.probability * 100)}%
+          </p>
+        ))}
+      </div>
+      <ImageUrlClassification />
     </div>
   );
 }
