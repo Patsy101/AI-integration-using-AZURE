@@ -1,11 +1,13 @@
 import React from "react";
 import BackgroundVideo from "./components/Moses/VideoPlayer";
-import CustomAI from "./components/Moses/CustomAI";
+import ImageURL from "./components/Moses/ImageURL";
+import ImageUploader from "./components/Moses/ImageUploader";
 
 export default function App() {
   return (
     <div className="App">
-      <CustomAI />
+      <ImageURL />
+      <ImageUploader />
       <BackgroundVideo />
     </div>
   );

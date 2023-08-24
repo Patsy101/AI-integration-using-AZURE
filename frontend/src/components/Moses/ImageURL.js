@@ -16,7 +16,7 @@ const CarImageClassifier = () => {
 
     try {
       const response = await axios.post(
-        apiUrl + "/CarImage",
+        "http://localhost:8080/CarImage",
         { imageUrl },
         {
           headers: {
@@ -33,7 +33,7 @@ const CarImageClassifier = () => {
   };
 
   return (
-    <div>
+    <div className="ImageURL">
       <h1>Car Image Classification</h1>
       <form onSubmit={handleSubmit}>
         <label htmlFor="imageUrl">Enter the Image URL:</label>
