@@ -11,6 +11,7 @@ const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 app.use(express.json());
 app.use(cors());
+
 // cars image url
 app.post('/carsimageurl', async (req, res) => {
   const { imageUrl } = req.body;
@@ -39,6 +40,7 @@ app.post('/carsimageurl', async (req, res) => {
     res.status(500).json({ error: 'An error occurred' });
   }
 });
+
 //cars upload image
 app.post('/classifyuploadimage', upload.single('image'), async (req, res) => {
   const imageBuffer = req.file.buffer;
