@@ -3,6 +3,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import ImageUrlClassification from './components/Patrick/UrlImage';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Navbar from '../src/components/Patrick/navbar';
 
 function App() {
   const [image, setImage] = useState(null);
@@ -40,7 +42,9 @@ function App() {
 
   return (
     <div className="App">
+      <Navbar></Navbar>
       <h1>Image Classification</h1>
+
       <input type="file" accept="image/*" onChange={handleImageChange} />
       <button onClick={handleUpload}>Upload</button>
 
