@@ -5,6 +5,8 @@ import axios from 'axios';
 import ImageUrlClassification from './components/Patrick/UrlImage';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Navbar from '../src/components/Patrick/navbar';
+import Footer from '../src/components/Patrick/Footer';
+import CarsAvailability from '../src/components/Patrick/CarsAvailability';
 
 function App() {
   const [image, setImage] = useState(null);
@@ -43,22 +45,26 @@ function App() {
   return (
     <div className="App">
       <Navbar></Navbar>
-      <h1>Image Classification</h1>
+      <br></br>
+
+      <h2>Image Classification</h2>
 
       <input type="file" accept="image/*" onChange={handleImageChange} />
       <button onClick={handleUpload}>Upload</button>
 
       <div className="results">
-        <h2>Classification Results:</h2>
-
         {imageUrl && <img src={imageUrl} alt="Uploaded" width="300" />}
+        <h1> Results:</h1>
         {results.map((result, index) => (
           <p key={index}>
             {result.tagName}: {Math.round(result.probability * 100)}%
           </p>
         ))}
       </div>
+      <CarsAvailability></CarsAvailability>
+
       <ImageUrlClassification />
+      <Footer></Footer>
     </div>
   );
 }

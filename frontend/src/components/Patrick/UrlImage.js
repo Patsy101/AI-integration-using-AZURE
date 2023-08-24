@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import CarsAvailability from '../Patrick/CarsAvailability';
 
 function ImageUrlClassification() {
   const [imageUrl, setImageUrl] = useState('');
@@ -29,31 +30,34 @@ function ImageUrlClassification() {
   };
 
   return (
-    <div>
-      <h2>Image URL Classification</h2>
-      <div>
-        <label htmlFor="imageUrl">Image URL: </label>
-        <input
-          type="text"
-          id="imageUrl"
-          value={imageUrl}
-          onChange={handleImageUrlChange}
-        />
-        <button onClick={handleClassify}>Classify</button>
-      </div>
-      {showImagePreview && imagePreviewUrl && (
-        <div className="image-preview">
-          <img src={imagePreviewUrl} alt="Preview" width={300} height={300} />
+    <div className=".splitright">
+      <div class="centered">
+        <h2>Image URL Classification</h2>
+        <div>
+          <label htmlFor="imageUrl">Image URL: </label>
+          <input
+            type="text"
+            id="imageUrl"
+            value={imageUrl}
+            onChange={handleImageUrlChange}
+          />
+          <button onClick={handleClassify}>Classify</button>
         </div>
-      )}
-      <div className="results">
-        <h3>Classification Results:</h3>
-        {results.map((result, index) => (
-          <p key={index}>
-            {result.tagName}: {Math.round(result.probability * 100)}%
-          </p>
-        ))}
+        {showImagePreview && imagePreviewUrl && (
+          <div className="image-preview">
+            <img src={imagePreviewUrl} alt="Preview" width={300} height={300} />
+          </div>
+        )}
+        <div className="results">
+          <h3> Results:</h3>
+          {results.map((result, index) => (
+            <p key={index}>
+              {result.tagName}: {Math.round(result.probability * 100)}%
+            </p>
+          ))}
+        </div>
       </div>
+      <CarsAvailability></CarsAvailability>
     </div>
   );
 }
