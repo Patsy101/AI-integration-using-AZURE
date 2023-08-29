@@ -1,11 +1,13 @@
 import React from "react";
 import BackgroundVideo from "./components/Moses/VideoPlayer";
-// import Describe from "./components/AzureVisionService/useAzureVision";
+import ImageURL from "./components/Moses/ImageURL";
+import ImageUploader from "./components/Moses/ImageUploader";
 
 export default function App() {
   return (
     <div className="App">
-      {/* <Describe /> */}
+      <ImageURL />
+      <ImageUploader />
       <BackgroundVideo />
     </div>
   );
