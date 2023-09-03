@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import CarsAvailability from '../Patrick/CarsAvailability';
 
 function ImageUrlClassification() {
   const [imageUrl, setImageUrl] = useState('');
@@ -57,7 +56,6 @@ function ImageUrlClassification() {
           ))}
         </div>
       </div>
-      <CarsAvailability></CarsAvailability>
     </div>
   );
 }

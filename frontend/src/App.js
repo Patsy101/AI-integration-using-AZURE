@@ -6,7 +6,6 @@ import ImageUrlClassification from './components/Patrick/UrlImage';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Navbar from '../src/components/Patrick/navbar';
 import Footer from '../src/components/Patrick/Footer';
-import CarsAvailability from '../src/components/Patrick/CarsAvailability';
 
 function App() {
   const [image, setImage] = useState(null);
@@ -61,7 +60,6 @@ function App() {
           </p>
         ))}
       </div>
-      <CarsAvailability></CarsAvailability>
 
       <ImageUrlClassification />
       <Footer></Footer>
